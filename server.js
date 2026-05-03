@@ -3,23 +3,34 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: "*",
+  methods: ["GET", "POST", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"]
+}));
+
+app.options("*", cors());
+
 app.use(express.json());
 
-// test route
 app.get("/", (req, res) => {
   res.send("NEOBAR BACKEND LIVE");
 });
 
-// fake login route (just to test)
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  if(username === "admin" && password === "neobar"){
-    return res.json({ token: "test-token" });
+  console.log("LOGIN:", username);
+
+  if (username === "admin" && password === "neobar") {
+    return res.json({ token: "test-token-neobar" });
   }
 
-  res.status(401).json({ error: "Invalid credentials" });
+  return res.status(401).json({ error: "Invalid credentials" });
+});
+
+app.post("/register", (req, res) => {
+  res.json({ message: "Register endpoint working" });
 });
 
 const PORT = process.env.PORT || 3000;
