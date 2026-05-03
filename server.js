@@ -8,7 +8,7 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 const SECRET = "MD4TxajvkA22PCwMWqULrYTGKea63lVKrQc9QVuR9jA=";
 
 const db = new sqlite3.Database("./neobar.db");
@@ -96,5 +96,5 @@ app.post("/messages", auth, (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log("🔥 API RUNNING → http://localhost:3000");
+  console.log("🔥 NEOBAR API RUNNING → " + PORT);
 });
